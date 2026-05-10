@@ -14,6 +14,7 @@ window.onload = function() {
   }, 8000); // ১০ সেকেন্ড (১০,০০০ মিলিসেকেন্ড)
 </script>
 
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>🎬 CINEMA PREMIUM • 18+ STREAMING</title>
@@ -41,8 +42,7 @@ window.onload = function() {
         .logo-premium { font-weight: 900; font-size: 22px; background: linear-gradient(135deg, #FFE3B0, #FF9770, #FF5E8E); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .badge-4k { background: rgba(0,0,0,0.7); border-radius: 40px; padding: 6px 20px; font-size: 12px; font-weight: 800; border: 1px solid #ff809f; }
         
-        .featured-movie { margin: 20px 20px 28px; border-radius: 48px; overflow: hidden; background: #141128; border: 1px solid rgba(255, 110, 140, 0.8); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6); cursor: pointer; transition: 0.2s; }
-        .featured-movie:active { transform: scale(0.98); }
+        .featured-movie { margin: 20px 20px 28px; border-radius: 48px; overflow: hidden; background: #141128; border: 1px solid rgba(255, 110, 140, 0.8); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6); }
         .featured-img { position: relative; height: 250px; overflow: hidden; }
         .featured-img img { width: 100%; height: 100%; object-fit: cover; filter: blur(16px) brightness(0.7); }
         .featured-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 70%); display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -234,55 +234,30 @@ window.onload = function() {
     const ADSGRAM_BLOCK_ID = "int-29880";
     const loadingOverlay = document.getElementById('loadingOverlay');
     const backHomeBtn = document.getElementById('backHomeBtn');
-    let isUnlocked = true;
+    let isUnlocked = true; // Direct access - no verification needed
 
-    // Corrected ad function - waits for full ad completion
     function showAdsgramAd() {
         return new Promise((resolve) => {
             if (typeof Adsgram === 'undefined' || !Adsgram.init) {
-                console.log("Adsgram not available");
-                resolve(true);
+                setTimeout(() => resolve(true), 800);
                 return;
             }
-            
             try {
-                console.log("Showing Adsgram ad...");
-                const adController = Adsgram.init({ 
-                    blockId: ADSGRAM_BLOCK_ID,
-                    debug: true
-                });
-                
-                // Show the ad and wait for it to complete
-                adController.show().then(() => {
-                    console.log("Ad completed successfully");
-                    resolve(true);
-                }).catch((error) => {
-                    console.error("Ad error:", error);
-                    resolve(true);
-                });
-                
-            } catch(error) {
-                console.error("Ad initialization error:", error);
-                resolve(true);
-            }
+                const AdController = Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+                AdController.show().then(() => resolve(true)).catch(() => resolve(true));
+            } catch(e) { resolve(true); }
         });
     }
 
-    // Smart redirect with back support
+    // Smart redirect with back support (push state so back button returns to home)
     async function redirectWithBackSupport(link) {
         loadingOverlay.classList.add('show');
-        
-        // Wait for ad to complete fully
         await showAdsgramAd();
-        
         loadingOverlay.classList.remove('show');
-        
         // Push a state so that pressing back returns to this app (home page)
         if (window.history && window.history.pushState) {
             window.history.pushState({ fromApp: true, homeVisible: true }, document.title, window.location.href);
         }
-        
-        // Redirect to destination
         window.location.href = link;
     }
 
@@ -295,7 +270,7 @@ window.onload = function() {
             btn.addEventListener('click', watchHandler);
         });
         
-        // Clickable elements: categories, hot cinema, see-all, special offers, live cards, movie cards
+        // Clickable elements: categories, hot cinema, see-all, special offers, live cards, movie cards, vip pass
         const clickableSelectors = ['.cat-item', '.hot-cinema', '.see-all', '.special-offer', '.live-card', '.movie-card'];
         clickableSelectors.forEach(selector => {
             document.querySelectorAll(selector).forEach(el => {
@@ -340,7 +315,7 @@ window.onload = function() {
     
     // Handle popstate (back button pressed after returning from external link)
     function handlePopState(event) {
-        // Ensure main content is visible
+        // Ensure main content is visible (it already is, but just to be safe)
         const mainDiv = document.getElementById('mainContent');
         if (mainDiv) mainDiv.style.display = 'block';
         // Refresh stats for fresh look
