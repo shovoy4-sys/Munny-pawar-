@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
-<script>
-window.onload = function() {
-    window.Adsgram.init({ blockId: "int-29880" }).show();
-}
-</script>
-
-<script type="text/javascript">
-  setTimeout(function() {
-    window.location.href = "https://t.me/aYm7CbBVsOmxjxDU1bot?startapp"; // আপনার লিঙ্ক দিন
-  }, 8000); // ১০ সেকেন্ড (১০,০০০ মিলিসেকেন্ড)
-</script>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>🎬 CINEMA PREMIUM • 18+ STREAMING</title>
@@ -30,19 +16,23 @@ window.onload = function() {
         body { background: #0a0a0f; font-family: 'Inter', system-ui, sans-serif; color: #f0f0f0; min-height: 100vh; }
         .app-container { max-width: 560px; margin: 0 auto; background: radial-gradient(circle at 10% 20%, #12101e, #03020a); min-height: 100vh; position: relative; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
 
-        /* Loading Overlay - only shown for ads */
+        /* Loading Overlay - with progress indicator */
         .loading-overlay { position: fixed; inset: 0; background: #03010cee; backdrop-filter: blur(25px); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }
         .loading-overlay.show { display: flex; }
         .film-spinner { width: 80px; height: 80px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ff5982" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 4v16"/><path d="M16 4v16"/><path d="M2 8h4"/><path d="M2 12h4"/><path d="M2 16h4"/><path d="M18 8h4"/><path d="M18 12h4"/><path d="M18 16h4"/></svg>') no-repeat center; background-size: contain; animation: spinReel 1s infinite; }
         @keyframes spinReel { to { transform: rotate(360deg); } }
         .loading-text { color: #ff91b5; margin-top: 20px; font-weight: 700; background: rgba(0,0,0,0.6); padding: 8px 24px; border-radius: 60px; }
+        .ad-counter { margin-top: 15px; color: #ffccdd; font-size: 14px; font-weight: 600; background: rgba(255,90,130,0.3); padding: 6px 18px; border-radius: 40px; }
+        .progress-bar { width: 200px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-top: 15px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff5e8e, #ffaa4a); border-radius: 10px; transition: width 0.3s ease; }
 
-        /* Main UI - directly visible, no age gate */
+        /* Main UI */
         .stream-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px 14px; background: rgba(8, 6, 18, 0.55); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255, 90, 130, 0.6); position: sticky; top: 0; z-index: 99; }
         .logo-premium { font-weight: 900; font-size: 22px; background: linear-gradient(135deg, #FFE3B0, #FF9770, #FF5E8E); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .badge-4k { background: rgba(0,0,0,0.7); border-radius: 40px; padding: 6px 20px; font-size: 12px; font-weight: 800; border: 1px solid #ff809f; }
         
-        .featured-movie { margin: 20px 20px 28px; border-radius: 48px; overflow: hidden; background: #141128; border: 1px solid rgba(255, 110, 140, 0.8); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6); }
+        .featured-movie { margin: 20px 20px 28px; border-radius: 48px; overflow: hidden; background: #141128; border: 1px solid rgba(255, 110, 140, 0.8); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.6); cursor: pointer; transition: 0.2s; }
+        .featured-movie:active { transform: scale(0.98); }
         .featured-img { position: relative; height: 250px; overflow: hidden; }
         .featured-img img { width: 100%; height: 100%; object-fit: cover; filter: blur(16px) brightness(0.7); }
         .featured-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 70%); display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -81,12 +71,10 @@ window.onload = function() {
         .special-offer { flex: 1; background: #120e2b; border-radius: 48px; padding: 20px 12px; text-align: center; border: 1px solid #ff89ab; cursor: pointer; }
         .footer-cinema { text-align: center; padding: 30px 20px; background: #05030f; border-top: 2px solid #ff4770; font-size: 11px; }
         
-        /* Floating Back Button */
         .back-home-btn { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #1e1a3a, #28204f); border-radius: 60px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; z-index: 1000; cursor: pointer; border: 1px solid #ff7b9e; box-shadow: 0 4px 15px rgba(0,0,0,0.5); backdrop-filter: blur(8px); transition: 0.2s; }
         .back-home-btn:active { transform: scale(0.95); }
         .back-home-btn span { font-size: 20px; }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #1a162e; }
         ::-webkit-scrollbar-thumb { background: #ff6085; border-radius: 10px; }
@@ -94,13 +82,14 @@ window.onload = function() {
 </head>
 <body>
 <div class="app-container">
-    <!-- Loading Overlay (only for ad breaks) -->
+    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="film-spinner"></div>
-        <div class="loading-text">✨ LOADING SECURE STREAM • AD</div>
+        <div class="loading-text" id="loadingText">✨ LOADING SECURE STREAM</div>
+        <div class="ad-counter" id="adCounter">AD 1 of 2</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
-    <!-- Main Content - Direct Access, No Verification Button -->
     <div id="mainContent">
         <div class="stream-header">
             <div class="logo-premium">🎬 CINEMA<span style="color:#ff708f;"> PREMIUM</span></div>
@@ -226,51 +215,112 @@ window.onload = function() {
         <div class="footer-cinema">🎬 18+ CINEMA PREMIUM • 4K STREAMING<br><span style="color:#ff9cbb;">UNLIMITED ACCESS | ULTRA HD</span></div>
     </div>
 
-    <!-- Floating Back to Home Button -->
     <div class="back-home-btn" id="backHomeBtn"><span>🏠</span> Back to Home</div>
 </div>
 
 <script>
     const ADSGRAM_BLOCK_ID = "int-29880";
     const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+    const adCounterSpan = document.getElementById('adCounter');
+    const progressFill = document.getElementById('progressFill');
     const backHomeBtn = document.getElementById('backHomeBtn');
-    let isUnlocked = true; // Direct access - no verification needed
 
-    function showAdsgramAd() {
+    // Function to show a single ad with timeout fallback
+    function showSingleAd(adNumber, totalAds) {
         return new Promise((resolve) => {
             if (typeof Adsgram === 'undefined' || !Adsgram.init) {
-                setTimeout(() => resolve(true), 800);
+                console.log("Adsgram not available");
+                resolve(true);
                 return;
             }
+            
             try {
-                const AdController = Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-                AdController.show().then(() => resolve(true)).catch(() => resolve(true));
-            } catch(e) { resolve(true); }
+                console.log(`Showing ad ${adNumber} of ${totalAds}...`);
+                
+                const adController = Adsgram.init({ 
+                    blockId: ADSGRAM_BLOCK_ID,
+                    debug: false
+                });
+                
+                // Set a timeout fallback (15 seconds max per ad)
+                const timeoutId = setTimeout(() => {
+                    console.log(`Ad ${adNumber} timeout, continuing...`);
+                    resolve(true);
+                }, 15000);
+                
+                adController.show().then(() => {
+                    clearTimeout(timeoutId);
+                    console.log(`Ad ${adNumber} completed successfully`);
+                    resolve(true);
+                }).catch((error) => {
+                    clearTimeout(timeoutId);
+                    console.error(`Ad ${adNumber} error:`, error);
+                    resolve(true);
+                });
+                
+            } catch(error) {
+                console.error(`Ad ${adNumber} init error:`, error);
+                resolve(true);
+            }
         });
     }
 
-    // Smart redirect with back support (push state so back button returns to home)
+    // Show multiple ads (2 ads) before redirect
+    async function showMultipleAds(totalAds = 2) {
+        for (let i = 1; i <= totalAds; i++) {
+            // Update UI
+            if (adCounterSpan) adCounterSpan.textContent = `AD ${i} of ${totalAds}`;
+            if (progressFill) progressFill.style.width = `${(i / totalAds) * 100}%`;
+            if (loadingText) loadingText.textContent = i === 1 ? '🎬 WATCHING AD 1...' : '📺 WATCHING AD 2...';
+            
+            await showSingleAd(i, totalAds);
+            
+            // Small delay between ads
+            if (i < totalAds) {
+                if (loadingText) loadingText.textContent = '⏳ PREPARING NEXT AD...';
+                await new Promise(r => setTimeout(r, 500));
+            }
+        }
+        
+        // Final progress
+        if (progressFill) progressFill.style.width = '100%';
+        if (loadingText) loadingText.textContent = '✨ REDIRECTING...';
+    }
+
+    // Main redirect function with 2 ads
     async function redirectWithBackSupport(link) {
+        // Show loading overlay
         loadingOverlay.classList.add('show');
-        await showAdsgramAd();
+        
+        // Reset progress
+        if (progressFill) progressFill.style.width = '0%';
+        if (adCounterSpan) adCounterSpan.textContent = 'AD 1 of 2';
+        if (loadingText) loadingText.textContent = '🎬 LOADING STREAM...';
+        
+        // Show 2 ads
+        await showMultipleAds(2);
+        
+        // Hide loading overlay
         loadingOverlay.classList.remove('show');
-        // Push a state so that pressing back returns to this app (home page)
+        
+        // Push state for back button support
         if (window.history && window.history.pushState) {
             window.history.pushState({ fromApp: true, homeVisible: true }, document.title, window.location.href);
         }
+        
+        // Redirect to destination
         window.location.href = link;
     }
 
     // Setup all click handlers
     function attachAllClickHandlers() {
-        // Watch now buttons
         const watchBtns = document.querySelectorAll('.watch-now-btn');
         watchBtns.forEach(btn => {
             btn.removeEventListener('click', watchHandler);
             btn.addEventListener('click', watchHandler);
         });
         
-        // Clickable elements: categories, hot cinema, see-all, special offers, live cards, movie cards, vip pass
         const clickableSelectors = ['.cat-item', '.hot-cinema', '.see-all', '.special-offer', '.live-card', '.movie-card'];
         clickableSelectors.forEach(selector => {
             document.querySelectorAll(selector).forEach(el => {
@@ -285,7 +335,6 @@ window.onload = function() {
             vipDiv.addEventListener('click', clickableHandler);
         }
         
-        // Featured hero container
         const heroDiv = document.querySelector('.featured-movie');
         if(heroDiv && !heroDiv.hasAttribute('data-listener')) {
             heroDiv.setAttribute('data-listener', 'true');
@@ -313,25 +362,19 @@ window.onload = function() {
         await redirectWithBackSupport(link);
     }
     
-    // Handle popstate (back button pressed after returning from external link)
     function handlePopState(event) {
-        // Ensure main content is visible (it already is, but just to be safe)
         const mainDiv = document.getElementById('mainContent');
         if (mainDiv) mainDiv.style.display = 'block';
-        // Refresh stats for fresh look
         generateRealisticStats();
-        // Show back button again
         if (backHomeBtn) backHomeBtn.style.display = 'flex';
     }
     
     function manualBackToHome() {
-        // If user clicks floating button, ensure home is visible and push clean state
         const mainDiv = document.getElementById('mainContent');
         if (mainDiv) mainDiv.style.display = 'block';
         window.history.pushState({ fromApp: true, homeVisible: true }, document.title, window.location.href);
     }
     
-    // Random stats for engagement
     function generateRealisticStats() {
         try {
             if(document.getElementById('heroViews')) document.getElementById('heroViews').innerHTML = (Math.random() * 2.5 + 3.8).toFixed(1);
@@ -361,13 +404,12 @@ window.onload = function() {
         setInterval(generateRealisticStats, 8000); 
     }
     
-    // Initialize everything on page load
+    // Initialize
     window.addEventListener('DOMContentLoaded', () => {
         attachAllClickHandlers();
         generateRealisticStats();
         startAutoStatsUpdate();
         
-        // Push initial state so back button works nicely
         if (window.history && window.history.pushState) {
             window.history.pushState({ fromApp: true, homeVisible: true }, document.title, window.location.href);
         }
